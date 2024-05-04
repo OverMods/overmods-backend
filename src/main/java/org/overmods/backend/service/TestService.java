@@ -12,7 +12,7 @@ public class TestService {
     @Autowired
     private TestRepository testRepository;
 
-    public List<Test> listTest() {
+    public List<Test> findAll() {
         return testRepository.findAll();
     }
 }
