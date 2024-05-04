@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=overmods'
+      - 'POSTGRES_PASSWORD=overmods'
+      - 'POSTGRES_USER=overmods'
+    ports:
+      - '5432'
