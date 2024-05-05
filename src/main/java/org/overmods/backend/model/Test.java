@@ -17,6 +17,10 @@ public class Test {
     @Column(name = "value", nullable = false)
     public String value;
 
+    public Test() {
+        this.value = null;
+    }
+
     public Test(String value) {
         this.value = value;
     }

@@ -12,7 +12,15 @@ public class TestService {
     @Autowired
     private TestRepository testRepository;
 
-    public List<Test> findAll() {
+    public List<Test> findAllTests() {
         return testRepository.findAll();
+    }
+
+    public Test saveTest(String value) {
+        return testRepository.save(new Test(value));
+    }
+
+    public void deleteTest(Integer id) {
+        testRepository.deleteById(id);
     }
 }
