@@ -1,6 +1,7 @@
 package org.overmods.backend.controller;
 
 import org.overmods.backend.model.User;
+import org.overmods.backend.repository.UserRepository;
 import org.overmods.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,12 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private UserService userService;
 
     @GetMapping("/{id}")
     public Optional<User> findById(@PathVariable Integer id) {
-        return userService.findUserById(id);
+        return userRepository.findUserById(id);
     }
 }
