@@ -1,6 +1,7 @@
 package org.overmods.backend.controller;
 
 import org.overmods.backend.dto.SignupDto;
+import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.User;
 import org.overmods.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class SignupController {
     private UserService userService;
 
     @PostMapping
-    public User signup(@RequestBody SignupDto dto) {
+    public User signup(@RequestBody SignupDto dto) throws ApiError {
         return userService.signup(dto);
     }
 }
