@@ -1,5 +1,3 @@
-CREATE SCHEMA "overmods";
-
 CREATE TYPE "overmods"."role" AS ENUM(
     'ADMIN',
     'MODDER',
