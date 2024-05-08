@@ -1,6 +1,8 @@
 package org.overmods.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +18,7 @@ import java.util.Collection;
 @Entity
 @Table(schema = "overmods", name = "user")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class User implements UserDetails {
@@ -30,6 +33,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "color", length = 6)
@@ -57,15 +61,8 @@ public class User implements UserDetails {
     public boolean banned;
 
     @Column(name = "deleted", nullable = false)
+    @JsonIgnore
     private boolean deleted;
-
-    public User(SignupDto dto) {
-        this.username = dto.username;
-        this.email = dto.email;
-        this.password = dto.password;
-
-        this.role = UserRole.ADMIN;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
