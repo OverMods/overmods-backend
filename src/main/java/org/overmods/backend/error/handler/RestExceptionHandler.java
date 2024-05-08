@@ -1,5 +1,9 @@
-package org.overmods.backend.error;
+package org.overmods.backend.error.handler;
 
+import org.overmods.backend.error.ApiError;
+import org.overmods.backend.error.ApiErrorResponse;
+import org.overmods.backend.error.InvalidParameter;
+import org.overmods.backend.error.UserNotFound;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -7,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,13 +31,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ApiErrorResponse(apiError), HttpStatus.OK);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return buildResponseEntity(new InvalidParameter());
+    }
+
     @ExceptionHandler(ApiError.class)
     protected ResponseEntity<Object> buildApiError(ApiError apiError) {
         return buildResponseEntity(apiError);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        return buildResponseEntity(new InvalidParameter());
+    @ExceptionHandler(UsernameNotFoundException.class)
+    protected ResponseEntity<Object> handleUsernameNotFound(UsernameNotFoundException e) {
+        return buildResponseEntity(new UserNotFound());
     }
 }
