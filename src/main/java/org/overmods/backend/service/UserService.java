@@ -32,7 +32,20 @@ public class UserService {
     private final SecurityContextRepository securityContextRepository
             = new HttpSessionSecurityContextRepository();
 
-    public User signup(SignupDto dto) throws ApiError {
+    private void createSession(String username, String password,
+                               HttpServletRequest req, HttpServletResponse res) {
+        UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken
+                .unauthenticated(username, password);
+        Authentication authentication = authenticationManager.authenticate(token);
+
+        SecurityContext context = securityContextHolderStrategy.createEmptyContext();
+        context.setAuthentication(authentication);
+
+        securityContextHolderStrategy.setContext(context);
+        securityContextRepository.saveContext(context, req, res);
+    }
+
+    public User signup(SignupDto dto, HttpServletRequest req, HttpServletResponse res) throws ApiError {
         boolean present = userRepository.findUserByUsername(dto.username).isPresent()
                 || userRepository.findUserByEmail(dto.email).isPresent();
         if (present) {
@@ -44,18 +57,13 @@ public class UserService {
         user.setEmail(dto.email);
         user.setPassword(passwordEncoder.encode(dto.password));
         user.setRole(UserRole.USER);
-        return userRepository.save(user);
+        var out = userRepository.save(user);
+
+        createSession(dto.username, dto.password, req, res);
+        return out;
     }
 
     public void login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
-        UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken
-                .unauthenticated(dto.username, dto.password);
-        Authentication authentication = authenticationManager.authenticate(token);
-
-        SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-        context.setAuthentication(authentication);
-
-        securityContextHolderStrategy.setContext(context);
-        securityContextRepository.saveContext(context, req, res);
+        createSession(dto.username, dto.password, req, res);
     }
 }
