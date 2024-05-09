@@ -1,8 +1,6 @@
 package org.overmods.backend.security;
 
-import lombok.AllArgsConstructor;
 import org.overmods.backend.model.User;
-import org.overmods.backend.model.UserDetailsImpl;
 import org.overmods.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

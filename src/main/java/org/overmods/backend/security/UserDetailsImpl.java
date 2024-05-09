@@ -1,6 +1,8 @@
-package org.overmods.backend.model;
+package org.overmods.backend.security;
 
 import lombok.AllArgsConstructor;
+import org.overmods.backend.model.User;
+import org.overmods.backend.model.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
