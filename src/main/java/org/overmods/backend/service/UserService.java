@@ -5,8 +5,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.LoginDto;
+import org.overmods.backend.dto.PatchUserDto;
 import org.overmods.backend.dto.SignupDto;
 import org.overmods.backend.error.ApiError;
+import org.overmods.backend.error.InvalidParameter;
+import org.overmods.backend.error.NotModified;
 import org.overmods.backend.error.UserAlreadyExists;
 import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;
@@ -101,5 +104,22 @@ public class UserService {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         return findUserById(userDetails.getId()).get();
+    }
+
+    public void patchUser(PatchUserDto dto) throws ApiError {
+        User user = getCurrentUser();
+        if (dto.email.isPresent()) {
+            String oldEmail = user.getEmail();
+            String newEmail = dto.email.get();
+
+            if (newEmail.length() < 1) {
+                throw new InvalidParameter();
+            } else if (newEmail.equals(oldEmail)) {
+                throw new NotModified();
+            }
+
+            // proceed to modify email
+            userRepository.updateEmail(user.id, newEmail);
+        }
     }
 }

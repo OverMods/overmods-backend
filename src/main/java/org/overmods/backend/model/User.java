@@ -11,7 +11,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -63,4 +65,13 @@ public class User {
     @Column(name = "deleted", nullable = false)
     @JsonIgnore
     private boolean deleted;
+
+    public void setModified() {
+        setUpdatedAt(Timestamp.from(Instant.now()));
+    }
+
+    public void setModifiedPassword() {
+        setModified();
+        setPasswordChanged(Timestamp.from(Instant.now()));
+    }
 }
