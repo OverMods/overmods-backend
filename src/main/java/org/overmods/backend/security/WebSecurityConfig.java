@@ -57,6 +57,7 @@ public class WebSecurityConfig {
                 .httpBasic(withDefaults())
                 .exceptionHandling(exception -> {
                     exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+                    exception.accessDeniedHandler(new CustomAccessDeniedHandler());
                 })
                 .build();
     }
