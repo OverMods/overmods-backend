@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
@@ -50,6 +49,18 @@ public class UserService {
         securityContextRepository.saveContext(context, req, res);
     }
 
+    // unlike getCurrentUser, which is secured by Spring Security,
+    // this method can be called even if session has no user authenticated
+    private Optional<User> getLoggedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+            return userRepository.findUserById(userDetails.getId());
+        } else {
+            return Optional.empty();
+        }
+    }
+
     private void destroySession(HttpServletRequest request) throws ServletException {
         request.logout();
     }
@@ -72,8 +83,10 @@ public class UserService {
         return out;
     }
 
-    public void login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
+    public Optional<User> login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
         createSession(dto.username, dto.password, req, res);
+
+        return getLoggedUser();
     }
 
     public void logout(HttpServletRequest req) throws ServletException {

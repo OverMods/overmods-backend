@@ -6,8 +6,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.LoginDto;
+import org.overmods.backend.model.User;
 import org.overmods.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/login")
@@ -16,8 +19,13 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping
-    public void login(@Valid @RequestBody LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
-        userService.login(dto, req, res);
+    public Optional<User> login(@Valid @RequestBody LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
+        return userService.login(dto, req, res);
+    }
+
+    @GetMapping
+    public User getLogin() {
+        return userService.getCurrentUser();
     }
 
     @DeleteMapping
