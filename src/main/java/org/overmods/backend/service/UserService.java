@@ -107,7 +107,7 @@ public class UserService {
                 () -> new IllegalStateException("there's must be user session, but got no user"));
     }
 
-    public void patchUser(PatchUserDto dto) throws ApiError {
+    public User patchUser(PatchUserDto dto) throws ApiError {
         User user = getCurrentUser();
         if (dto.email != null && dto.email.isPresent()) {
             String oldEmail = user.getEmail();
@@ -126,6 +126,8 @@ public class UserService {
 
             // proceed to modify email
             userRepository.updateEmail(user.id, newEmail);
+            user.setEmail(newEmail);
+            user.setModified();
         } else if (dto.password != null && dto.password.isPresent()) {
             String oldPassword = user.getPassword();
             String newPassword = dto.password.get();
@@ -140,6 +142,18 @@ public class UserService {
 
             // proceed to modify password
             userRepository.updatePassword(user.id, hashedPassword);
+            user.setPassword(hashedPassword);
+            user.setModifiedPassword();
+        } else if(dto.siteRating != null && dto.siteRating.isPresent()) {
+            Integer newSiteRating = dto.siteRating.get();
+
+            userRepository.updateSiteRating(user.id, newSiteRating);
+            user.setSiteRating(newSiteRating);
+            user.setModified();
         }
+
+        // we're also modifying local object, since hibernation transaction may happen later,
+        // than we fetch it from database, so, we're returning local modified copy
+        return user;
     }
 }

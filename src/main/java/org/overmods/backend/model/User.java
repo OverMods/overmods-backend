@@ -65,4 +65,13 @@ public class User {
     @Column(name = "deleted", nullable = false)
     @JsonIgnore
     private boolean deleted;
+
+    public void setModified() {
+        setUpdatedAt(Timestamp.from(Instant.now()));
+    }
+
+    public void setModifiedPassword() {
+        setModified();
+        setPasswordChanged(Timestamp.from(Instant.now()));
+    }
 }
