@@ -1,5 +1,6 @@
 package org.overmods.backend.service;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,10 @@ public class UserService {
         securityContextRepository.saveContext(context, req, res);
     }
 
+    private void destroySession(HttpServletRequest request) throws ServletException {
+        request.logout();
+    }
+
     public User signup(SignupDto dto, HttpServletRequest req, HttpServletResponse res) throws ApiError {
         boolean present = userRepository.findUserByUsername(dto.username).isPresent()
                 || userRepository.findUserByEmail(dto.email).isPresent();
@@ -69,6 +74,10 @@ public class UserService {
 
     public void login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
         createSession(dto.username, dto.password, req, res);
+    }
+
+    public void logout(HttpServletRequest req) throws ServletException {
+        destroySession(req);
     }
 
     public Optional<User> findUserById(Integer id) {

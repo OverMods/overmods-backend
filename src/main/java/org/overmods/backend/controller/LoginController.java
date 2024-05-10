@@ -1,15 +1,13 @@
 package org.overmods.backend.controller;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.LoginDto;
 import org.overmods.backend.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
@@ -20,5 +18,10 @@ public class LoginController {
     @PostMapping
     public void login(@Valid @RequestBody LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
         userService.login(dto, req, res);
+    }
+
+    @DeleteMapping
+    public void logout(HttpServletRequest req) throws ServletException {
+        userService.logout(req);
     }
 }
