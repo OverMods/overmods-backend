@@ -10,16 +10,20 @@ import org.overmods.backend.error.UserAlreadyExists;
 import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;
 import org.overmods.backend.repository.UserRepository;
+import org.overmods.backend.security.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -65,5 +69,15 @@ public class UserService {
 
     public void login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
         createSession(dto.username, dto.password, req, res);
+    }
+
+    public Optional<User> findUserById(Integer id) {
+        return userRepository.findUserById(id);
+    }
+
+    public User getCurrentUser() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        return findUserById(userDetails.getId()).get();
     }
 }

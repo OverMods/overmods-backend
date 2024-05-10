@@ -51,13 +51,13 @@ public class WebSecurityConfig {
                     csrf.ignoringRequestMatchers(("/**"));
                 })
                 .authorizeHttpRequests(auth -> {
-                    //auth.requestMatchers("/user").authenticated();
-                    auth.requestMatchers("/**").permitAll();
+                    auth.requestMatchers("/user/**").authenticated();
+                    auth.anyRequest().permitAll();
                 })
-//                .formLogin(form -> {
-//                    form.loginPage("/login").permitAll();
-//                })
                 .httpBasic(withDefaults())
+                .exceptionHandling(exception -> {
+                    exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+                })
                 .build();
     }
 }
