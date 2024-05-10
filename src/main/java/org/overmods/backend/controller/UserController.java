@@ -27,7 +27,8 @@ public class UserController {
     }
 
     @PatchMapping()
-    public void patchUser(@Valid @RequestBody PatchUserDto dto) throws ApiError {
+    public User patchUser(@Valid @RequestBody PatchUserDto dto) throws ApiError {
         userService.patchUser(dto);
+        return getCurrentUser();
     }
 }

@@ -103,12 +103,13 @@ public class UserService {
     public User getCurrentUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        return findUserById(userDetails.getId()).get();
+        return findUserById(userDetails.getId()).orElseThrow(
+                () -> new IllegalStateException("there's must be user session, but got no user"));
     }
 
     public void patchUser(PatchUserDto dto) throws ApiError {
         User user = getCurrentUser();
-        if (dto.email.isPresent()) {
+        if (dto.email != null && dto.email.isPresent()) {
             String oldEmail = user.getEmail();
             String newEmail = dto.email.get();
 
@@ -118,8 +119,27 @@ public class UserService {
                 throw new NotModified();
             }
 
+            // check if there exists any user with requested email
+            if (userRepository.findUserByEmail(newEmail).isPresent()) {
+                throw new UserAlreadyExists();
+            }
+
             // proceed to modify email
             userRepository.updateEmail(user.id, newEmail);
+        } else if (dto.password != null && dto.password.isPresent()) {
+            String oldPassword = user.getPassword();
+            String newPassword = dto.password.get();
+
+            if (newPassword.length() < 1) {
+                throw new InvalidParameter();
+            }
+            String hashedPassword = passwordEncoder.encode(newPassword);
+            if (hashedPassword.equals(oldPassword)) {
+                throw new NotModified();
+            }
+
+            // proceed to modify password
+            userRepository.updatePassword(user.id, hashedPassword);
         }
     }
 }
