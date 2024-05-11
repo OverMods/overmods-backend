@@ -53,6 +53,10 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public String store(MultipartFile file) throws StorageFailure, ExtensionNotAllowed {
         String oldFileName = file.getOriginalFilename();
+        if (oldFileName == null) {
+            throw new ExtensionNotAllowed();
+        }
+
         Matcher matcher = EXTENSION_PATTERN.matcher(oldFileName);
         if (!matcher.matches()) {
             throw new ExtensionNotAllowed();
