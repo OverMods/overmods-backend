@@ -9,27 +9,27 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    public Optional<User> findUserById(Integer id);
-    public Optional<User> findUserByUsername(String username);
-    public Optional<User> findUserByEmail(String email);
+    Optional<User> findUserById(Integer id);
+    Optional<User> findUserByUsername(String username);
+    Optional<User> findUserByEmail(String email);
 
     @Modifying
     @Transactional
     @Query("update User u set u.email = ?2, u.updatedAt = CURRENT_TIMESTAMP() where u.id = ?1")
-    public void updateEmail(Integer id, String newEmail);
+    void updateEmail(Integer id, String newEmail);
 
     @Modifying
     @Transactional
     @Query("update User u set u.password = ?2, u.updatedAt = CURRENT_TIMESTAMP(), u.passwordChanged = CURRENT_TIMESTAMP() where u.id = ?1")
-    public void updatePassword(Integer id, String newPassword);
+    void updatePassword(Integer id, String newPassword);
 
     @Modifying
     @Transactional
     @Query("update User u set u.siteRating = ?2, u.updatedAt = CURRENT_TIMESTAMP() where u.id = ?1")
-    public void updateSiteRating(Integer id, Integer newRating);
+    void updateSiteRating(Integer id, Integer newRating);
 
     @Modifying
     @Transactional
     @Query("update User u set u.avatar = ?2, u.updatedAt = CURRENT_TIMESTAMP() where u.id = ?1")
-    public void putAvatar(Integer id, String newAvatar);
+    void putAvatar(Integer id, String newAvatar);
 }
