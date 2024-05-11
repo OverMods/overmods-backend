@@ -55,6 +55,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.GET, "/login").authenticated();
                     auth.requestMatchers("/user/**").authenticated();
+                    auth.requestMatchers("/game/**").permitAll();
                     auth.anyRequest().permitAll();
                 })
                 .httpBasic(withDefaults())
