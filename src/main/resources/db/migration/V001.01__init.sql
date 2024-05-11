@@ -10,6 +10,7 @@ CREATE TABLE "overmods"."user" (
     "email"             VARCHAR         NOT NULL UNIQUE,
     "password"          VARCHAR         NOT NULL,
     "color"             CHAR(6)         DEFAULT NULL,
+    "avatar"            VARCHAR         DEFAULT NULL,
     "role"              "overmods"."role" NOT NULL,
     "site_rating"       SMALLINT        DEFAULT NULL,
     "registered_at"     TIMESTAMP       NOT NULL,

@@ -1,6 +1,8 @@
 package org.overmods.backend.storage;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,8 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 public class FileSystemStorageService implements StorageService {
+    private static final Logger logger = LoggerFactory.getLogger(FileSystemStorageService.class);
+
     private final StorageProperties storageProperties;
 
     @Override
@@ -44,7 +48,7 @@ public class FileSystemStorageService implements StorageService {
         return new UUID(highPart, lowPart);
     }
 
-    private static final Pattern EXTENSION_PATTERN = Pattern.compile("\\.[0-9a-z]+$");
+    private static final Pattern EXTENSION_PATTERN = Pattern.compile("^.+(\\.[\\da-z]+$)");
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList(
             ".png", ".jpg", ".jpeg", ".gif",
             ".zip", ".rar", ".7z"
@@ -62,14 +66,25 @@ public class FileSystemStorageService implements StorageService {
             throw new ExtensionNotAllowed();
         }
 
-        String extension = matcher.group();
+        String extension = matcher.group(1);
         if (!ALLOWED_EXTENSIONS.contains(extension)) {
+            logger.info("Prohibited extension: " + extension);
             throw new ExtensionNotAllowed();
         }
 
         // generate here random but unique filename, then store
+        Path rootPath = Path.of(storageProperties.getLocation());
         String newFileName = generateRandomUUID() + extension;
-        Path newPath = Path.of(storageProperties.getLocation(), newFileName);
+
+        Path newPath = rootPath
+                .resolve(Path.of(newFileName))
+                .normalize()
+                .toAbsolutePath();
+        // ensure that file stays in root directory
+        if (!newPath.getParent().equals(rootPath)) {
+            logger.info("Path outside of root: " + oldFileName);
+            throw new ExtensionNotAllowed();
+        }
 
         try {
             try (InputStream input = file.getInputStream()) {

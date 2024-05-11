@@ -15,6 +15,7 @@ import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;
 import org.overmods.backend.repository.UserRepository;
 import org.overmods.backend.security.UserDetailsImpl;
+import org.overmods.backend.storage.StorageService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -38,6 +40,7 @@ public class UserService {
             = SecurityContextHolder.getContextHolderStrategy();
     private final SecurityContextRepository securityContextRepository
             = new HttpSessionSecurityContextRepository();
+    private final StorageService storageService;
 
     private void createSession(String username, String password,
                                HttpServletRequest req, HttpServletResponse res) {
@@ -154,6 +157,17 @@ public class UserService {
 
         // we're also modifying local object, since hibernation transaction may happen later,
         // than we fetch it from database, so, we're returning local modified copy
+        return user;
+    }
+
+    public User putAvatar(MultipartFile avatar) throws ApiError {
+        User user = getCurrentUser();
+
+        String newAvatar = storageService.store(avatar);
+
+        userRepository.putAvatar(user.id, newAvatar);
+        user.setAvatar(newAvatar);
+        user.setModified();
         return user;
     }
 }

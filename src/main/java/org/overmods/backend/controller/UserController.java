@@ -7,6 +7,7 @@ import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.User;
 import org.overmods.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -29,5 +30,10 @@ public class UserController {
     @PatchMapping()
     public User patchUser(@Valid @RequestBody PatchUserDto dto) throws ApiError {
         return userService.patchUser(dto);
+    }
+
+    @PutMapping("/avatar")
+    public User putAvatar(@RequestParam("avatar") MultipartFile avatar) throws ApiError {
+        return userService.putAvatar(avatar);
     }
 }

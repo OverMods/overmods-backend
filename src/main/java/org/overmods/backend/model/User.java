@@ -8,14 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Table(schema = "overmods", name = "user")
@@ -40,6 +35,9 @@ public class User {
 
     @Column(name = "color", length = 6)
     public String color;
+
+    @Column(name = "avatar")
+    public String avatar;
 
     @Enumerated(EnumType.STRING)
     public UserRole role;

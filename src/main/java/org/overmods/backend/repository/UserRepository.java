@@ -27,4 +27,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Query("update User u set u.siteRating = ?2, u.updatedAt = CURRENT_TIMESTAMP() where u.id = ?1")
     public void updateSiteRating(Integer id, Integer newRating);
+
+    @Modifying
+    @Transactional
+    @Query("update User u set u.avatar = ?2, u.updatedAt = CURRENT_TIMESTAMP() where u.id = ?1")
+    public void putAvatar(Integer id, String newAvatar);
 }
