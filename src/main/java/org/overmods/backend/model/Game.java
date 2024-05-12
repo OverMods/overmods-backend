@@ -1,5 +1,6 @@
 package org.overmods.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Game {
     @Column(name = "logo", nullable = false)
     public String logo;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "game")
+    @JsonManagedReference
     private Set<Mod> mods;
 }

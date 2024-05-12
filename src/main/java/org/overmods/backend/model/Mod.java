@@ -1,5 +1,6 @@
 package org.overmods.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Mod {
 
     @ManyToOne
     @JoinColumn(name = "game", nullable = false)
+    @JsonBackReference
     public Game game;
 
     @Column(name = "title", nullable = false)
@@ -32,6 +34,7 @@ public class Mod {
 
     @ManyToOne
     @JoinColumn(name = "author", nullable = false)
+    @JsonBackReference
     public User author;
 
     @Column(name = "author_title", nullable = true)

@@ -18,7 +18,9 @@ public class GameController {
     private final GameService gameService;
 
     @GetMapping
-    public List<Game> findAll() { return gameService.findAll(); }
+    public List<Game> findAll() {
+        return gameService.findAll();
+    }
 
     @GetMapping("/{id}")
     public List<Mod> findModsByGameId(@PathVariable Integer id) {

@@ -1,6 +1,7 @@
 package org.overmods.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -74,6 +75,7 @@ public class User {
         setPasswordChanged(Timestamp.from(Instant.now()));
     }
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "author")
+    @JsonManagedReference
     private Set<Mod> mods;
 }
