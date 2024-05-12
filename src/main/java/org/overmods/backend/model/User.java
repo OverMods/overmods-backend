@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Table(schema = "overmods", name = "user")
@@ -72,4 +73,7 @@ public class User {
         setModified();
         setPasswordChanged(Timestamp.from(Instant.now()));
     }
+
+    @OneToMany(mappedBy = "id")
+    private Set<Mod> mods;
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(schema = "overmods", name = "game")
 @NoArgsConstructor
@@ -25,4 +27,7 @@ public class Game {
 
     @Column(name = "logo", nullable = false)
     public String logo;
+
+    @OneToMany(mappedBy = "id")
+    private Set<Mod> mods;
 }
