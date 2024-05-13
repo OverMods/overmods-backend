@@ -25,7 +25,7 @@ public class ModComment {
     private Mod mod;
 
     @ManyToOne
-    @JoinColumn(name = "user", nullable = false)
+    @JoinColumn(name = "\"user\"", nullable = false)
     private User user;
 
     @CreationTimestamp
@@ -36,5 +36,5 @@ public class ModComment {
     private String comment;
 
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Boolean deleted = false;
 }

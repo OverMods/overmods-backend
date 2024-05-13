@@ -16,7 +16,7 @@ public class ModRating {
     @Id
     private Integer mod;
 
-    @Column(name = "user", nullable = false)
+    @Column(name = "\"user\"", nullable = false)
     private Integer user;
 
     @Column(name = "rating", columnDefinition = "SMALLINT")
