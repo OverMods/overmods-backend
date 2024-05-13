@@ -1,6 +1,7 @@
 package org.overmods.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(schema = "overmods", name = "mod")
@@ -70,4 +72,8 @@ public class Mod {
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted;
+
+    @OneToMany(mappedBy = "mod")
+    @JsonManagedReference
+    private Set<ModComment> comments;
 }

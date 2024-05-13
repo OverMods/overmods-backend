@@ -78,4 +78,8 @@ public class User {
     @OneToMany(mappedBy = "author")
     @JsonManagedReference
     private Set<Mod> mods;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private Set<ModComment> comments;
 }

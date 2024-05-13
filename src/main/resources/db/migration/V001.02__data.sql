@@ -37,3 +37,21 @@ VALUES
         '1.4','1.0','test instruction 2',0,'7Q6KS2PMV.zip',16777368,FALSE),
     (4,'test Mod 3','umXe9zmkA.png',2,NULL,1.5,'2023-06-28 21:24:08','test description 3',
         '1.5.2','1.0','test instruction 3',0,'Vh1kcbLiY.zip',16777368,FALSE);
+
+-- mod_comment
+INSERT INTO "overmods"."mod_comment"
+    (mod,user,commented_at,comment,deleted)
+VALUES
+    (1,2,'2023-06-24 11:55:35','test comment for test mod',FALSE),
+    (1,2,'2023-06-29 03:11:23','test 1',FALSE),
+    (1,2,'2023-06-29 03:11:41','test 2',FALSE),
+    (1,2,'2023-06-29 03:15:54','test 3',FALSE),
+    (1,2,'2023-07-02 04:40:07','test 4',FALSE),
+    (1,2,'2023-07-02 04:41:17','test 5',FALSE),
+    (1,2,'2023-07-02 04:43:05','test 6',FALSE),
+    (1,2,'2023-07-02 04:43:51','test 7',FALSE),
+    (1,2,'2023-07-02 04:44:52','test 8',FALSE),
+    (1,2,'2023-07-02 04:45:48','test 9',FALSE),
+    (1,2,'2023-07-02 04:46:41','test 10',TRUE),
+    (1,2,'2023-07-02 04:49:55','test 11',FALSE),
+    (1,2,'2023-07-02 04:50:29','test 12',FALSE);
