@@ -23,7 +23,7 @@ CREATE TABLE "overmods"."user" (
 CREATE TABLE "overmods"."game" (
     "id"                SERIAL          PRIMARY KEY,
     "title"             VARCHAR         NOT NULL,
-    "short_title"       VARCHAR         NOT NULL,
+    "short_title"       VARCHAR         NOT NULL UNIQUE,
     "logo"              VARCHAR         NOT NULL
 );
 
