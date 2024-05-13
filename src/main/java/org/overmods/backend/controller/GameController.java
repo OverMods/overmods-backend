@@ -1,6 +1,7 @@
 package org.overmods.backend.controller;
 
 import lombok.AllArgsConstructor;
+import org.overmods.backend.dto.GameDto;
 import org.overmods.backend.dto.GameModsDto;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.Game;
@@ -19,7 +20,7 @@ public class GameController {
     private final GameService gameService;
 
     @GetMapping
-    public List<Game> findAll() {
+    public List<GameDto> findAll() {
         return gameService.findAll();
     }
 
