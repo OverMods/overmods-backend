@@ -8,12 +8,10 @@ import org.overmods.backend.dto.SignupDto;
 import org.overmods.backend.dto.UserDto;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/signup")
 @AllArgsConstructor
 public class SignupController {
