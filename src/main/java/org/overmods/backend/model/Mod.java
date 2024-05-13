@@ -21,54 +21,54 @@ import java.util.Set;
 public class Mod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "game", nullable = false)
     @JsonBackReference
-    public Game game;
+    private Game game;
 
     @Column(name = "title", nullable = false)
-    public String title;
+    private String title;
 
     @Column(name = "logo", nullable = false)
-    public String logo;
+    private String logo;
 
     @ManyToOne
     @JoinColumn(name = "author", nullable = false)
     @JsonBackReference
-    public User author;
+    private User author;
 
     @Column(name = "author_title", nullable = true)
-    public String authorTitle;
+    private String authorTitle;
 
     @Column(name = "rating", nullable = false)
-    public Float rating = 0.0f;
+    private Float rating = 0.0f;
 
     @CreationTimestamp
     @Column(name = "uploaded_at", nullable = false)
-    public Timestamp uploadedAt;
+    private Timestamp uploadedAt;
 
     @Column(name = "description", nullable = true, columnDefinition = "TEXT")
-    public String description;
+    private String description;
 
     @Column(name = "game_version", nullable = true)
-    public String gameVersion;
+    private String gameVersion;
 
     @Column(name = "mod_version", nullable = true)
-    public String modVersion;
+    private String modVersion;
 
     @Column(name = "instruction", nullable = true, columnDefinition = "TEXT")
-    public String instruction;
+    private String instruction;
 
     @Column(name = "downloaded", nullable = false)
-    public Integer downloaded = 0;
+    private Integer downloaded = 0;
 
     @Column(name = "file", nullable = false)
     private String file;
 
     @Column(name = "file_size", nullable = false)
-    public Integer fileSize;
+    private Integer fileSize;
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted;

@@ -34,6 +34,6 @@ public class UserDto {
         this.registeredAt = user.getRegisteredAt();
         this.updatedAt = user.getUpdatedAt();
         this.passwordChanged = hasPasswordChanged ? user.getPasswordChanged() : null;
-        this.banned = user.isBanned();
+        this.banned = user.getBanned();
     }
 }

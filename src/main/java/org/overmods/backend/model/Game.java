@@ -19,16 +19,16 @@ import java.util.Set;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @Column(name = "title", nullable = false)
-    public String title;
+    private String title;
 
     @Column(name = "short_title", nullable = false, unique = true)
-    public String shortTitle;
+    private String shortTitle;
 
     @Column(name = "logo", nullable = false)
-    public String logo;
+    private String logo;
 
     @OneToMany(mappedBy = "game")
     @JsonManagedReference

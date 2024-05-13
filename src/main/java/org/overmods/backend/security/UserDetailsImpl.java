@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.role = user.getRole();
-        this.isDeleted = user.isDeleted();
+        this.isDeleted = user.getDeleted();
     }
 
     @Override

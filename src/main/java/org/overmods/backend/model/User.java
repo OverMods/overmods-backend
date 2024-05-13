@@ -23,10 +23,10 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @Column(name = "username", nullable = false, unique = true)
-    public String username;
+    private String username;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -36,20 +36,20 @@ public class User {
     private String password;
 
     @Column(name = "color", length = 6)
-    public String color;
+    private String color;
 
     @Column(name = "avatar")
-    public String avatar;
+    private String avatar;
 
     @Enumerated(EnumType.STRING)
-    public UserRole role;
+    private UserRole role;
 
     @Column(name = "site_rating")
-    public Integer siteRating;
+    private Integer siteRating;
 
     @CreationTimestamp
     @Column(name = "registered_at", nullable = false)
-    public Timestamp registeredAt;
+    private Timestamp registeredAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
@@ -60,11 +60,11 @@ public class User {
     private Timestamp passwordChanged;
 
     @Column(name = "banned", nullable = false)
-    public boolean banned;
+    private Boolean banned;
 
     @Column(name = "deleted", nullable = false)
     @JsonIgnore
-    private boolean deleted;
+    private Boolean deleted;
 
     public void setModified() {
         setUpdatedAt(Timestamp.from(Instant.now()));

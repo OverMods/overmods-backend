@@ -128,7 +128,7 @@ public class UserService {
             }
 
             // proceed to modify email
-            userRepository.updateEmail(user.id, newEmail);
+            userRepository.updateEmail(user.getId(), newEmail);
             user.setEmail(newEmail);
             user.setModified();
         } else if (dto.password != null && dto.password.isPresent()) {
@@ -144,13 +144,13 @@ public class UserService {
             }
 
             // proceed to modify password
-            userRepository.updatePassword(user.id, hashedPassword);
+            userRepository.updatePassword(user.getId(), hashedPassword);
             user.setPassword(hashedPassword);
             user.setModifiedPassword();
         } else if(dto.siteRating != null && dto.siteRating.isPresent()) {
             Integer newSiteRating = dto.siteRating.get();
 
-            userRepository.updateSiteRating(user.id, newSiteRating);
+            userRepository.updateSiteRating(user.getId(), newSiteRating);
             user.setSiteRating(newSiteRating);
             user.setModified();
         }
@@ -165,7 +165,7 @@ public class UserService {
 
         String newAvatar = storageService.store(avatar);
 
-        userRepository.putAvatar(user.id, newAvatar);
+        userRepository.putAvatar(user.getId(), newAvatar);
         user.setAvatar(newAvatar);
         user.setModified();
         return new UserDto(user, true, true);
