@@ -66,3 +66,9 @@ VALUES
     (2,2,4),
     (3,1,1),
     (3,2,5);
+
+-- mod_screenshot
+INSERT INTO "overmods"."mod_screenshot"
+    (mod,screenshot,title,description)
+VALUES
+    (1,'0I5BCrRRW.png',NULL,NULL);

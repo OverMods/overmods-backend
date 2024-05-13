@@ -177,7 +177,7 @@ public class UserService {
 
     public List<ModCommentDto> findMyComments() {
         User user = getCurrentUser();
-        return modCommentRepository.findAllByUserId(user.getId())
+        return user.getComments()
                 .stream()
                 .map(ModCommentDto::new)
                 .toList();
@@ -185,7 +185,7 @@ public class UserService {
 
     public List<ModDto> findMyMods() {
         User user = getCurrentUser();
-        return modRepository.findByAuthorId(user.getId())
+        return user.getMods()
                 .stream()
                 .map(ModDto::new)
                 .toList();

@@ -10,7 +10,6 @@ public class ModCommentDto {
     public final Integer user;
     public final Timestamp commentedAt;
     public final String comment;
-    public final Boolean deleted;
 
     public ModCommentDto(ModComment modComment) {
         this.id = modComment.getId();;
@@ -18,6 +17,5 @@ public class ModCommentDto {
         this.user = modComment.getUser().getId();
         this.commentedAt = modComment.getCommentedAt();
         this.comment = modComment.getComment();
-        this.deleted = modComment.getDeleted();
     }
 }

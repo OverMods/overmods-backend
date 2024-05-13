@@ -76,4 +76,7 @@ public class Mod {
     @OneToMany(mappedBy = "mod")
     @JsonManagedReference
     private Set<ModComment> comments;
+
+    @OneToMany(mappedBy = "mod")
+    private Set<ModScreenshot> screenshots;
 }
