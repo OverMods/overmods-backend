@@ -55,3 +55,14 @@ VALUES
     (1,2,'2023-07-02 04:46:41','test 10',TRUE),
     (1,2,'2023-07-02 04:49:55','test 11',FALSE),
     (1,2,'2023-07-02 04:50:29','test 12',FALSE);
+
+-- mod_rating
+INSERT INTO "overmods"."mod_rating"
+    (mod,"user",rating)
+VALUES
+    (1,1,5),
+    (1,2,4),
+    (2,1,4),
+    (2,2,4),
+    (3,1,1),
+    (3,2,5);
