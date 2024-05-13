@@ -7,7 +7,6 @@ import org.overmods.backend.dto.PatchUserDto;
 import org.overmods.backend.dto.UserDto;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.User;
-import org.overmods.backend.service.ModCommentService;
 import org.overmods.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +20,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final ModCommentService modCommentService;
 
     @GetMapping
     public User getCurrentUser() {
@@ -45,7 +43,6 @@ public class UserController {
 
     @GetMapping("/comment")
     public List<ModCommentDto> findMyComments() {
-        User user = userService.getCurrentUser();
-        return modCommentService.findUserComments(user);
+        return userService.findMyComments();
     }
 }
