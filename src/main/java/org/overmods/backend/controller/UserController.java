@@ -2,14 +2,17 @@ package org.overmods.backend.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.overmods.backend.dto.ModCommentDto;
 import org.overmods.backend.dto.PatchUserDto;
 import org.overmods.backend.dto.UserDto;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.User;
+import org.overmods.backend.service.ModCommentService;
 import org.overmods.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,6 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ModCommentService modCommentService;
 
     @GetMapping
     public User getCurrentUser() {
@@ -37,5 +41,11 @@ public class UserController {
     @PutMapping("/avatar")
     public UserDto putAvatar(@RequestParam("avatar") MultipartFile avatar) throws ApiError {
         return userService.putAvatar(avatar);
+    }
+
+    @GetMapping("/comment")
+    public List<ModCommentDto> findMyComments() {
+        User user = userService.getCurrentUser();
+        return modCommentService.findUserComments(user);
     }
 }

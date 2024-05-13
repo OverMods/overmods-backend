@@ -40,7 +40,7 @@ VALUES
 
 -- mod_comment
 INSERT INTO "overmods"."mod_comment"
-    (mod,user,commented_at,comment,deleted)
+    (mod,"user",commented_at,comment,deleted)
 VALUES
     (1,2,'2023-06-24 11:55:35','test comment for test mod',FALSE),
     (1,2,'2023-06-29 03:11:23','test 1',FALSE),

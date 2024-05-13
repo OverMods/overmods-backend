@@ -4,10 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.overmods.backend.dto.LoginDto;
-import org.overmods.backend.dto.PatchUserDto;
-import org.overmods.backend.dto.SignupDto;
-import org.overmods.backend.dto.UserDto;
+import org.overmods.backend.dto.*;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.error.InvalidParameter;
 import org.overmods.backend.error.NotModified;
@@ -29,6 +26,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
