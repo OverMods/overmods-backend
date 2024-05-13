@@ -12,6 +12,7 @@ import org.overmods.backend.error.UserAlreadyExists;
 import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;
 import org.overmods.backend.repository.ModCommentRepository;
+import org.overmods.backend.repository.ModRepository;
 import org.overmods.backend.repository.UserRepository;
 import org.overmods.backend.security.UserDetailsImpl;
 import org.overmods.backend.storage.StorageService;
@@ -34,6 +35,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final ModRepository modRepository;
     private final ModCommentRepository modCommentRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -175,9 +177,17 @@ public class UserService {
 
     public List<ModCommentDto> findMyComments() {
         User user = getCurrentUser();
-        return modCommentRepository.findAllByUser(user.getId())
+        return modCommentRepository.findAllByUserId(user.getId())
                 .stream()
                 .map(ModCommentDto::new)
+                .toList();
+    }
+
+    public List<ModDto> findMyMods() {
+        User user = getCurrentUser();
+        return modRepository.findByAuthorId(user.getId())
+                .stream()
+                .map(ModDto::new)
                 .toList();
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ModRepository extends JpaRepository<Mod, Integer> {
     List<Mod> findByGameId(Integer gameId);
+    List<Mod> findByAuthorId(Integer authorId);
 }

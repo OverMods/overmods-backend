@@ -3,6 +3,7 @@ package org.overmods.backend.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.ModCommentDto;
+import org.overmods.backend.dto.ModDto;
 import org.overmods.backend.dto.PatchUserDto;
 import org.overmods.backend.dto.UserDto;
 import org.overmods.backend.error.ApiError;
@@ -44,5 +45,10 @@ public class UserController {
     @GetMapping("/comment")
     public List<ModCommentDto> findMyComments() {
         return userService.findMyComments();
+    }
+
+    @GetMapping("/mod")
+    public List<ModDto> findMyMods() {
+        return userService.findMyMods();
     }
 }

@@ -7,9 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ModCommentRepository extends JpaRepository<ModComment, Integer> {
-    @Query("select c from ModComment c where c.mod.id = ?1")
-    List<ModComment> findAllByMod(Integer mod);
-
-    @Query("select c from ModComment c where c.user.id = ?1")
-    List<ModComment> findAllByUser(Integer user);
+    List<ModComment> findAllByModId(Integer modId);
+    List<ModComment> findAllByUserId(Integer userId);
 }
