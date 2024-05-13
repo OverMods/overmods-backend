@@ -2,15 +2,13 @@ package org.overmods.backend.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.overmods.backend.dto.ModCommentDto;
-import org.overmods.backend.dto.ModRatingDto;
-import org.overmods.backend.dto.ModScreenshotDto;
-import org.overmods.backend.dto.PostCommentDto;
+import org.overmods.backend.dto.*;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.Mod;
 import org.overmods.backend.service.ModService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +31,11 @@ public class ModController {
     public ModCommentDto postComment(@PathVariable Integer id,
                                      @Valid @RequestBody PostCommentDto dto) throws ApiError {
         return modService.postComment(id, dto);
+    }
+
+    @DeleteMapping("/comment")
+    public HashMap<Integer, Object> deleteComments(@Valid @RequestBody DeleteCommentsDto dto) {
+        return modService.deleteComments(dto);
     }
 
     @GetMapping("/{id}/rating")
