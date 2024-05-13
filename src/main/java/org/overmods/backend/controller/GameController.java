@@ -1,8 +1,9 @@
 package org.overmods.backend.controller;
 
 import lombok.AllArgsConstructor;
+import org.overmods.backend.dto.GameModsDto;
+import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.Game;
-import org.overmods.backend.model.Mod;
 import org.overmods.backend.service.GameService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +23,8 @@ public class GameController {
         return gameService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public List<Mod> findModsByGameId(@PathVariable Integer id) {
-        return gameService.findModsByGameId(id);
+    @GetMapping("/{shortTitle}")
+    public GameModsDto findModsByGame(@PathVariable String shortTitle) throws ApiError {
+        return gameService.findModsByGame(shortTitle);
     }
 }

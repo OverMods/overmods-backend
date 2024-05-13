@@ -1,5 +1,6 @@
 package org.overmods.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class Game {
     @Column(name = "title", nullable = false)
     public String title;
 
-    @Column(name = "short_title", nullable = false)
+    @Column(name = "short_title", nullable = false, unique = true)
     public String shortTitle;
 
     @Column(name = "logo", nullable = false)
@@ -31,5 +32,6 @@ public class Game {
 
     @OneToMany(mappedBy = "game")
     @JsonManagedReference
+    @JsonIgnore
     private Set<Mod> mods;
 }

@@ -3,6 +3,7 @@ package org.overmods.backend.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.PatchUserDto;
+import org.overmods.backend.dto.UserDto;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.User;
 import org.overmods.backend.service.UserService;
@@ -23,17 +24,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> findById(@PathVariable Integer id) {
+    public Optional<UserDto> findById(@PathVariable Integer id) {
         return userService.findUserById(id);
     }
 
     @PatchMapping()
-    public User patchUser(@Valid @RequestBody PatchUserDto dto) throws ApiError {
+    public UserDto patchUser(@Valid @RequestBody PatchUserDto dto) throws ApiError {
         return userService.patchUser(dto);
     }
 
     @PutMapping("/avatar")
-    public User putAvatar(@RequestParam("avatar") MultipartFile avatar) throws ApiError {
+    public UserDto putAvatar(@RequestParam("avatar") MultipartFile avatar) throws ApiError {
         return userService.putAvatar(avatar);
     }
 }

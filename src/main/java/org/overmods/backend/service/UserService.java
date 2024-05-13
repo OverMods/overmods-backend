@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.LoginDto;
 import org.overmods.backend.dto.PatchUserDto;
 import org.overmods.backend.dto.SignupDto;
+import org.overmods.backend.dto.UserDto;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.error.InvalidParameter;
 import org.overmods.backend.error.NotModified;
@@ -71,7 +72,7 @@ public class UserService {
         request.logout();
     }
 
-    public User signup(SignupDto dto, HttpServletRequest req, HttpServletResponse res) throws ApiError {
+    public UserDto signup(SignupDto dto, HttpServletRequest req, HttpServletResponse res) throws ApiError {
         boolean present = userRepository.findUserByUsername(dto.username).isPresent()
                 || userRepository.findUserByEmail(dto.email).isPresent();
         if (present) {
@@ -86,31 +87,32 @@ public class UserService {
         var out = userRepository.save(user);
 
         createSession(dto.username, dto.password, req, res);
-        return out;
+        return new UserDto(user, true, true);
     }
 
-    public Optional<User> login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
+    public Optional<UserDto> login(LoginDto dto, HttpServletRequest req, HttpServletResponse res) {
         createSession(dto.username, dto.password, req, res);
 
-        return getLoggedUser();
+        return getLoggedUser().map(user -> new UserDto(user, true, true));
     }
 
     public void logout(HttpServletRequest req) throws ServletException {
         destroySession(req);
     }
 
-    public Optional<User> findUserById(Integer id) {
-        return userRepository.findUserById(id);
+    public Optional<UserDto> findUserById(Integer id) {
+        return userRepository.findUserById(id)
+                .map(user -> new UserDto(user, false, false));
     }
 
     public User getCurrentUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        return findUserById(userDetails.getId()).orElseThrow(
+        return userRepository.findUserById(userDetails.getId()).orElseThrow(
                 () -> new IllegalStateException("there's must be user session, but got no user"));
     }
 
-    public User patchUser(PatchUserDto dto) throws ApiError {
+    public UserDto patchUser(PatchUserDto dto) throws ApiError {
         User user = getCurrentUser();
         if (dto.email != null && dto.email.isPresent()) {
             String oldEmail = user.getEmail();
@@ -157,10 +159,10 @@ public class UserService {
 
         // we're also modifying local object, since hibernation transaction may happen later,
         // than we fetch it from database, so, we're returning local modified copy
-        return user;
+        return new UserDto(user, true, true);
     }
 
-    public User putAvatar(MultipartFile avatar) throws ApiError {
+    public UserDto putAvatar(MultipartFile avatar) throws ApiError {
         User user = getCurrentUser();
 
         String newAvatar = storageService.store(avatar);
@@ -168,6 +170,6 @@ public class UserService {
         userRepository.putAvatar(user.id, newAvatar);
         user.setAvatar(newAvatar);
         user.setModified();
-        return user;
+        return new UserDto(user, true, true);
     }
 }
