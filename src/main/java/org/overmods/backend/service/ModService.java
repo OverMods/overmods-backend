@@ -35,7 +35,9 @@ public class ModService {
     private final UserService userService;
     private final StorageService storageService;
 
-    public Optional<Mod> findById(Integer id) { return modRepository.findById(id); }
+    public ModDto findById(Integer id) throws ApiError {
+        return new ModDto(modRepository.findById(id).orElseThrow(NotFound::new));
+    }
 
     public List<ModCommentDto> getModComments(Integer id) {
         return modCommentRepository.findAllByModId(id)

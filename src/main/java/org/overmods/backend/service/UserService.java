@@ -5,10 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.*;
-import org.overmods.backend.error.ApiError;
-import org.overmods.backend.error.InvalidParameter;
-import org.overmods.backend.error.NotModified;
-import org.overmods.backend.error.UserAlreadyExists;
+import org.overmods.backend.error.*;
 import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;
 import org.overmods.backend.repository.ModCommentRepository;
@@ -102,9 +99,9 @@ public class UserService {
         destroySession(req);
     }
 
-    public Optional<UserDto> findUserById(Integer id) {
-        return userRepository.findUserById(id)
-                .map(user -> new UserDto(user, false, false));
+    public UserDto findUserById(Integer id) throws ApiError {
+        return new UserDto(userRepository.findUserById(id).orElseThrow(NotFound::new),
+                false, false);
     }
 
     public User getCurrentUser() {

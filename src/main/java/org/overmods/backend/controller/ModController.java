@@ -23,7 +23,7 @@ public class ModController {
     private final ModService modService;
 
     @GetMapping("/{id}")
-    public Optional<Mod> findById(@PathVariable Integer id) { return modService.findById(id); }
+    public ModDto findById(@PathVariable Integer id) throws ApiError { return modService.findById(id); }
 
     @PutMapping("/{id}/logo")
     public ModDto putLogo(@PathVariable Integer id, @RequestParam("logo") MultipartFile logo) throws ApiError {

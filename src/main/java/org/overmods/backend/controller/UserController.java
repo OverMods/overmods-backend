@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<UserDto> findById(@PathVariable Integer id) {
+    public UserDto findById(@PathVariable Integer id) throws ApiError {
         return userService.findUserById(id);
     }
 
