@@ -13,7 +13,9 @@ import org.overmods.backend.repository.ModCommentRepository;
 import org.overmods.backend.repository.ModRatingRepository;
 import org.overmods.backend.repository.ModRepository;
 import org.overmods.backend.repository.ModScreenshotRepository;
+import org.overmods.backend.storage.StorageService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,7 @@ public class ModService {
     private final ModRatingRepository modRatingRepository;
     private final ModScreenshotRepository modScreenshotRepository;
     private final UserService userService;
+    private final StorageService storageService;
 
     public Optional<Mod> findById(Integer id) { return modRepository.findById(id); }
 
@@ -54,11 +57,10 @@ public class ModService {
         User user = userService.getCurrentUser();
         HashMap<Integer, Object> status = new HashMap<>();
 
-        boolean isAdmin = user.getRole().toString().equals("ADMIN");
         List<ModComment> comments = modCommentRepository.findAllById(dto.ids);
         for (ModComment comment : comments) {
             Integer commentId = comment.getId();
-            if (comment.getUser().getId().equals(user.getId()) || isAdmin) {
+            if (comment.getUser().getId().equals(user.getId()) || user.isAdmin()) {
                 // delete
                 modCommentRepository.deleteById(commentId);
                 status.put(commentId, Boolean.TRUE);
@@ -83,5 +85,35 @@ public class ModService {
                 .stream()
                 .map(ModScreenshotDto::new)
                 .toList();
+    }
+
+    public ModDto putLogo(Integer id, MultipartFile logo) throws ApiError {
+        User user = userService.getCurrentUser();
+        Mod mod = modRepository.findById(id).orElseThrow(NotFound::new);
+
+        if (!user.hasModOwnership(mod) && !user.isAdmin()) {
+            throw new InsufficientPrivileges();
+        }
+
+        String newLogo = storageService.store(logo);
+        modRepository.putLogo(mod.getId(), newLogo);
+        mod.setLogo(newLogo);
+
+        return new ModDto(mod);
+    }
+
+    public ModDto putFile(Integer id, MultipartFile logo) throws ApiError {
+        User user = userService.getCurrentUser();
+        Mod mod = modRepository.findById(id).orElseThrow(NotFound::new);
+
+        if (!user.hasModOwnership(mod) && !user.isAdmin()) {
+            throw new InsufficientPrivileges();
+        }
+
+        String newFile = storageService.store(logo);
+        modRepository.putFile(mod.getId(), newFile);
+        mod.setLogo(newFile);
+
+        return new ModDto(mod);
     }
 }

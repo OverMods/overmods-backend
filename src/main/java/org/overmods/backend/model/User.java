@@ -82,4 +82,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private Set<ModComment> comments;
+
+    public boolean isAdmin() {
+        return getRole() == UserRole.ADMIN;
+    }
+
+    public boolean hasModOwnership(Mod mod) {
+        return mod.getAuthor().getId().equals(getId())
+                && getRole() == UserRole.MODDER;
+    }
 }

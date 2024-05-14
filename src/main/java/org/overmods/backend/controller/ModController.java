@@ -7,6 +7,7 @@ import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.Mod;
 import org.overmods.backend.service.ModService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,16 @@ public class ModController {
 
     @GetMapping("/{id}")
     public Optional<Mod> findById(@PathVariable Integer id) { return modService.findById(id); }
+
+    @PutMapping("/{id}/logo")
+    public ModDto putLogo(@PathVariable Integer id, @RequestParam("logo") MultipartFile logo) throws ApiError {
+        return modService.putLogo(id, logo);
+    }
+
+    @PutMapping("/{id}/file")
+    public ModDto putFile(@PathVariable Integer id, @RequestParam("file") MultipartFile file) throws ApiError {
+        return modService.putFile(id, file);
+    }
 
     @GetMapping("/{id}/comment")
     public List<ModCommentDto> getModComments(@PathVariable Integer id) {
