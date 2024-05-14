@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: backend
+  namespace: overmods
+spec:
+  selector:
+    matchLabels:
+      app: overmods
+      service: backend
+  serviceName: backend
+  template:
+    metadata:
+      labels:
+        app: overmods
+        service: backend
+    spec:
+      containers:
+        - image: postgres:alpine
+          name: backend
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: secret
+          volumeMounts:
+            - mountPath: /var/lib/backend-data
+              name: backend-data
+  volumeClaimTemplates:
+    - metadata:
+        name: backend-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 128Mi
