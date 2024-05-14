@@ -1,5 +1,6 @@
 package org.overmods.backend.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.*;
 import org.overmods.backend.error.ApiError;
@@ -14,9 +15,12 @@ import org.overmods.backend.repository.ModRatingRepository;
 import org.overmods.backend.repository.ModRepository;
 import org.overmods.backend.repository.ModScreenshotRepository;
 import org.overmods.backend.storage.StorageService;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -115,5 +119,15 @@ public class ModService {
         mod.setLogo(newFile);
 
         return new ModDto(mod);
+    }
+
+    public FileSystemResource download(Integer id, HttpServletResponse response) throws ApiError {
+        Mod mod = modRepository.findById(id).orElseThrow(NotFound::new);
+
+        Path filePath = storageService.load(mod.getFile());
+        response.setContentType("application/octet-stream");
+
+        modRepository.incrementDownloads(mod.getId());
+        return new FileSystemResource(new File(filePath.toString()));
     }
 }

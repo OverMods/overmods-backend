@@ -21,4 +21,9 @@ public interface ModRepository extends JpaRepository<Mod, Integer> {
     @Transactional
     @Query("update Mod m set m.file = ?2 where m.id = ?1")
     void putFile(Integer id, String newFile);
+
+    @Modifying
+    @Transactional
+    @Query("update Mod m set m.downloaded = m.downloaded + 1 where m.id = ?1")
+    void incrementDownloads(Integer id);
 }

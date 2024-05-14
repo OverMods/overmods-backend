@@ -1,11 +1,13 @@
 package org.overmods.backend.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.*;
 import org.overmods.backend.error.ApiError;
 import org.overmods.backend.model.Mod;
 import org.overmods.backend.service.ModService;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,5 +59,10 @@ public class ModController {
     @GetMapping("/{id}/screenshot")
     public List<ModScreenshotDto> getModScreenshots(@PathVariable Integer id) {
         return modService.getModScreenshots(id);
+    }
+
+    @GetMapping("/{id}/download")
+    public FileSystemResource download(@PathVariable Integer id, HttpServletResponse res) throws ApiError {
+        return modService.download(id, res);
     }
 }
