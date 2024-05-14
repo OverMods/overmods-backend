@@ -16,16 +16,13 @@ spec:
         service: backend
     spec:
       containers:
-        - image: postgres:alpine
+        - image: mykola2312/overmods-backend:latest
           name: backend
-          env:
-            - name: POSTGRES_USER
-              value: postgres
           ports:
-            - containerPort: 5432
-          envFrom:
-            - secretRef:
-                name: secret
+            - containerPort: 8080
+          env:
+            - name: OVERMODS_DATA_PATH
+              value: "/var/lib/backend-data"
           volumeMounts:
             - mountPath: /var/lib/backend-data
               name: backend-data

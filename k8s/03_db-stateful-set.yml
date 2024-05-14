@@ -27,9 +27,6 @@ spec:
               value: overmods
           ports:
             - containerPort: 5432
-          envFrom:
-            - secretRef:
-                name: secret
           volumeMounts:
             - mountPath: /var/lib/postgres
               name: db-data
