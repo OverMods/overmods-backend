@@ -30,8 +30,7 @@ spec:
     - metadata:
         name: backend-data
       spec:
-        accessModes:
-          - ReadWriteOnce
+        accessModes: [ "ReadWriteMany" ]
         resources:
           requests:
             storage: 128Mi
