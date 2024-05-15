@@ -36,7 +36,7 @@ public class ModController {
     }
 
     @GetMapping("/{id}/comment")
-    public List<ModCommentDto> getModComments(@PathVariable Integer id) {
+    public ModCommentsDto getModComments(@PathVariable Integer id) {
         return modService.getModComments(id);
     }
 

@@ -91,4 +91,10 @@ public class User {
         return mod.getAuthor().getId().equals(getId())
                 && getRole() == UserRole.MODDER;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User) obj;
+        return user.getId().equals(getId());
+    }
 }

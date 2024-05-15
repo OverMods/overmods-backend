@@ -37,4 +37,10 @@ public class ModComment {
 
     @Column(name = "deleted")
     private Boolean deleted = false;
+
+    @Override
+    public boolean equals(Object obj) {
+        ModComment comment = (ModComment) obj;
+        return comment.getId().equals(getId());
+    }
 }

@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -39,11 +37,20 @@ public class ModService {
         return new ModDto(modRepository.findById(id).orElseThrow(NotFound::new));
     }
 
-    public List<ModCommentDto> getModComments(Integer id) {
-        return modCommentRepository.findAllByModId(id)
+    public ModCommentsDto getModComments(Integer id) {
+        HashSet<User> users = new HashSet<>();
+        ArrayList<ModCommentDto> comments = new ArrayList<>();
+
+        for (ModComment comment : modCommentRepository.findAllByModId(id)) {
+            users.add(comment.getUser());
+            comments.add(new ModCommentDto(comment));
+        }
+
+        var usersDto = users
                 .stream()
-                .map(ModCommentDto::new)
+                .map(user -> new UserDto(user, false, false))
                 .toList();
+        return new ModCommentsDto(usersDto, comments);
     }
 
     public ModCommentDto postComment(Integer id, PostCommentDto dto) throws ApiError {
