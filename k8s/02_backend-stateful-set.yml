@@ -16,7 +16,7 @@ spec:
         service: backend
     spec:
       containers:
-        - image: mykola2312/overmods-backend:latest
+        - image: mykola2312/overmods-backend:v0.1.0
           name: backend
           ports:
             - containerPort: 8080
