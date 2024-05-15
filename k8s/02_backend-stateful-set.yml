@@ -27,11 +27,11 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/backend-data
               name: backend-data
-  volumeClaimTemplates:
-    - metadata:
-        name: backend-data
-      spec:
-        accessModes: [ "ReadWriteMany" ]
-        resources:
-          requests:
-            storage: 128Mi
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: backend-data
+#      spec:
+#        accessModes: [ "ReadWriteMany" ]
+#        resources:
+#          requests:
+#            storage: 128Mi
