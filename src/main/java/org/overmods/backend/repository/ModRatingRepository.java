@@ -1,6 +1,6 @@
 package org.overmods.backend.repository;
 
-import org.overmods.backend.model.ModRating;;
+import org.overmods.backend.model.ModRating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
