@@ -24,9 +24,9 @@ spec:
           env:
             - name: OVERMODS_DATA_PATH
               value: "/var/lib/backend-data"
-          volumeMounts:
-            - mountPath: /var/lib/backend-data
-              name: backend-data
+#          volumeMounts:
+#            - mountPath: /var/lib/backend-data
+#              name: backend-data
 #  volumeClaimTemplates:
 #    - metadata:
 #        name: backend-data
