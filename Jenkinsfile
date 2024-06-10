@@ -18,7 +18,7 @@ node {
     }
 
     stage('Rollout') {
-        sh('kubectl apply -f k8s/')
-        sh('kubectl rollout restart statefulset backend -n overmods')
+        sh('k3s kubectl apply -f k8s/')
+        sh('k3s kubectl rollout restart deployment backend -n overmods')
     }
 }
