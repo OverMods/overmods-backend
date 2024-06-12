@@ -1,6 +1,5 @@
 package org.overmods.backend.security;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;

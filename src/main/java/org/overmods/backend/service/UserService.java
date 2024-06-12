@@ -8,8 +8,6 @@ import org.overmods.backend.dto.*;
 import org.overmods.backend.error.*;
 import org.overmods.backend.model.User;
 import org.overmods.backend.model.UserRole;
-import org.overmods.backend.repository.ModCommentRepository;
-import org.overmods.backend.repository.ModRepository;
 import org.overmods.backend.repository.UserRepository;
 import org.overmods.backend.security.UserDetailsImpl;
 import org.overmods.backend.storage.StorageService;
@@ -32,8 +30,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final ModRepository modRepository;
-    private final ModCommentRepository modCommentRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final SecurityContextHolderStrategy securityContextHolderStrategy
@@ -83,7 +79,6 @@ public class UserService {
         user.setEmail(dto.email);
         user.setPassword(passwordEncoder.encode(dto.password));
         user.setRole(UserRole.USER);
-        var out = userRepository.save(user);
 
         createSession(dto.username, dto.password, req, res);
         return new UserDto(user, true, true);

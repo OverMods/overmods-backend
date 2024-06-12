@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.overmods.backend.dto.*;
 import org.overmods.backend.error.ApiError;
-import org.overmods.backend.model.Mod;
 import org.overmods.backend.service.ModService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
